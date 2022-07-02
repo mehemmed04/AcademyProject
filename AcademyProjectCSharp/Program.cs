@@ -211,18 +211,32 @@ namespace AcademyProjectCSharp
             string PDFpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + '\\' + student.Name + student.Surname + exam.Name + ".pdf";
             PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(PDFpath, FileMode.Create));
             doc.Open();
+            string imageURL = "StepIt.png";
+            iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(imageURL);
+            jpg.ScaleToFit(200f, 180f);
+            jpg.SpacingBefore = 10f;
+            jpg.SpacingAfter = 1f;
+            jpg.Alignment = Element.ALIGN_CENTER;
             Paragraph paraghraph = new Paragraph();
-            paraghraph.SpacingBefore = 10;
-            paraghraph.SpacingAfter = 10;
-            string text = $@"Hello {student.Name} {student.Surname}. Your exam result is written below
-Exam name : {exam.Name}
-Score : {exam.Score}
-Exam date : {exam.ExamDate.ToString()}
+            Paragraph paraghraph2 = new Paragraph();
+            paraghraph.SpacingBefore = 30;
 
-Good Luck!";
-
+            string text = $@"    Hello {student.Name} {student.Surname}. Your exam result is written below
+    Exam name : {exam.Name}
+    Score : {exam.Score}
+    Exam date : {exam.ExamDate.ToString()}
+                                
+";
+            string text2 = "Good Luck!";
+            paraghraph.Alignment = Element.ALIGN_CENTER;
+            paraghraph2.Alignment = Element.ALIGN_CENTER;
+            paraghraph.Font = FontFactory.GetFont(FontFactory.HELVETICA, 14f, BaseColor.RED);
+            paraghraph2.Font = FontFactory.GetFont(FontFactory.COURIER_BOLD, 20f, BaseColor.RED);
+            doc.Add(jpg);
             paraghraph.Add(text);
+            paraghraph2.Add(text2);
             doc.Add(paraghraph);
+            doc.Add(paraghraph2);
             doc.Close();
             return PDFpath;
         }
@@ -266,9 +280,9 @@ Good Luck!";
             };
             Student s4 = new Student()
             {
-                Name = "Remzi",
-                Email = "remzihesenov245@gmail.com",
-                Surname = "Hesenov"
+                Name = "Zehra",
+                Email = "zhrabayramova1@gmail.com",
+                Surname = "Bayramova"
             };
 
             Teacher t1 = new Teacher()
